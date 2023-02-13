@@ -2,8 +2,11 @@
   "name": "echarts_calculator",
   "private": true,
   "version": "0.0.0",
+  "homepage": ".",
   "type": "module",
   "scripts": {
+    "predeploy": "npm run build",
+    "deploy": "gh-pages -d build",
     "dev": "vite",
     "build": "tsc && vite build",
     "preview": "vite preview"
@@ -14,9 +17,11 @@
     "@mui/material": "^5.11.8",
     "echarts": "^5.4.1",
     "echarts-for-react": "^3.0.2",
+    "gh-pages": "^5.0.0",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
-    "react-range": "^1.8.14"
+    "react-range": "^1.8.14",
+    "save-dev": "^0.0.1-security"
   },
   "devDependencies": {
     "@types/react": "^18.0.27",

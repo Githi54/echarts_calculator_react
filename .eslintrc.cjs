@@ -17,6 +17,7 @@ module.exports = {
     'react'
   ],
   rules: {
-    semi: ['error', 'always']
+    semi: ['error', 'always'],
+    indent: ['error', 2]
   }
 };

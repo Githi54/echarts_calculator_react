@@ -1,34 +1,32 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import './App.css'
+import { Box, Container, Typography } from "@mui/material";
+import { useState } from "react";
+import "./App.css";
+import { DiscreteSlider } from "./components/DiscreteSlider";
 
 function App() {
-  const [count, setCount] = useState(0)
+  const [storageCount, setStorageCount] = useState<number | number[]>(100);
+  const [transferCount, setTransferCount] = useState<number | number[]>(100);
 
   return (
     <div className="App">
-      <div>
-        <a href="https://vitejs.dev" target="_blank">
-          <img src="/vite.svg" className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://reactjs.org" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.tsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
+      <Box sx={{ display: "flex", gap: "30px" }}>
+        <Container>
+          <Box sx={{ display: "flex", gap: "30px" }}>
+            <Typography>Storage:</Typography>
+            <Typography>{`${storageCount}GB`}</Typography>
+          </Box>
+          <DiscreteSlider setMemoryCount={setStorageCount} />
+        </Container>
+        <Container>
+          <Box sx={{ display: "flex", gap: "30px" }}>
+            <Typography>Transfer:</Typography>
+            <Typography>{`${transferCount}GB`}</Typography>
+          </Box>
+          <DiscreteSlider setMemoryCount={setTransferCount} />
+        </Container>
+      </Box>
     </div>
-  )
+  );
 }
 
-export default App
+export default App;

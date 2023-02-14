@@ -1,6 +1,5 @@
 import { Box, Container, Typography } from "d:/tests/echarts_calculator/echarts_calculator_react/node_modules/@mui/material/index";
 import { useState } from "react";
-import "./App.css";
 import { DiscreteSlider } from "./components/DiscreteSlider";
 import { HorizontalCharts } from "./components/HorizontalCharts";
 

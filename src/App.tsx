@@ -1,12 +1,12 @@
-import { Box, Container, Typography } from "@mui/material";
+import { Box, Container, Typography } from "d:/tests/echarts_calculator/echarts_calculator_react/node_modules/@mui/material/index";
 import { useState } from "react";
 import "./App.css";
 import { DiscreteSlider } from "./components/DiscreteSlider";
 import { HorizontalCharts } from "./components/HorizontalCharts";
 
 function App() {
-  const [storageCount, setStorageCount] = useState<number | number[]>(100);
-  const [transferCount, setTransferCount] = useState<number | number[]>(100);
+  const [storageCount, setStorageCount] = useState(100);
+  const [transferCount, setTransferCount] = useState(100);
 
   return (
     <div className="App">
@@ -26,7 +26,7 @@ function App() {
           <DiscreteSlider setMemoryCount={setTransferCount} />
         </Container>
       </Box>
-      <HorizontalCharts />
+      <HorizontalCharts storageCount={storageCount} transferCount={transferCount} />
     </div>
   );
 }

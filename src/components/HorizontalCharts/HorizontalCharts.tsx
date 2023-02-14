@@ -5,8 +5,8 @@ import {
   BarElement,
   Title,
   Tooltip,
-  Legend,
 } from 'chart.js';
+import { useEffect, useState } from 'react';
 import { Bar } from 'react-chartjs-2';
 
 ChartJS.register(
@@ -16,6 +16,11 @@ ChartJS.register(
   Title,
   Tooltip,
 );
+
+type Props = {
+  storageCount: number;
+  transferCount: number;
+}
 
 export const options = {
   indexAxis: 'y' as const,
@@ -33,20 +38,47 @@ export const options = {
   },
 };
 
-const labels = ['backblaze', 'bunny', 'scaleway', ' vultr'];
+function getPrice(
+  minPrice: number, 
+  storagePrice: number, 
+  transferPrice: number, 
+  storageCount: number, 
+  transferCount: number,
+  maxPrice?: number
+): number {
+  let price = 0;
 
-export const data = {
-  labels,
-  datasets: [
-    {
-      label: 'Price',
-      data: [300, 400, 324, 2],
-      borderColor: 'rgb(255, 99, 132)',
-      backgroundColor: 'rgba(255, 99, 132, 0.5)',
-    },
-  ],
-};
+  price += ((storagePrice * storageCount) + (transferCount * transferPrice));
 
-export function HorizontalCharts() {
+  if (price < minPrice) {
+    price = minPrice;
+  }
+ 
+  if (maxPrice && price > maxPrice) {
+    price = maxPrice;
+  }
+
+  return price;
+}
+
+export const HorizontalCharts: React.FC<Props> = ({ storageCount, transferCount}) => {
+  const [backblazePrice, setBackblazePrice] = useState(getPrice(7, 0.005, 0.01, storageCount, transferCount));
+
+  useEffect(() => {
+    setBackblazePrice(getPrice(7, 0.005, 0.01, storageCount, transferCount));
+  }, [storageCount, transferCount])
+  const labels = ['backblaze', 'bunny', 'scaleway', ' vultr'];
+  const data = {
+    labels,
+    datasets: [
+      {
+        label: 'Price',
+        data: [backblazePrice, 400, 324, 2],
+        borderColor: ['red', 'orange', 'violet', 'blue'],
+        backgroundColor: ['red', 'orange', 'violet', 'blue'],
+      },
+    ],
+  };
+
   return <Bar options={options} data={data} />;
 }

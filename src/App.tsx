@@ -2,6 +2,7 @@ import { Box, Container, Typography } from "@mui/material";
 import { useState } from "react";
 import "./App.css";
 import { DiscreteSlider } from "./components/DiscreteSlider";
+import { HorizontalCharts } from "./components/HorizontalCharts";
 
 function App() {
   const [storageCount, setStorageCount] = useState<number | number[]>(100);
@@ -25,6 +26,7 @@ function App() {
           <DiscreteSlider setMemoryCount={setTransferCount} />
         </Container>
       </Box>
+      <HorizontalCharts />
     </div>
   );
 }

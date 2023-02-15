@@ -5,9 +5,9 @@ import {
   BarElement,
   Title,
   Tooltip,
-} from 'chart.js';
-import { useEffect, useState } from 'react';
-import { Bar } from 'react-chartjs-2';
+} from "chart.js";
+import { useEffect, useState } from "react";
+import { Bar } from "react-chartjs-2";
 
 ChartJS.register(
   CategoryScale,
@@ -23,7 +23,7 @@ type Props = {
 }
 
 export const options = {
-  indexAxis: 'y' as const,
+  indexAxis: "y" as const,
   elements: {
     bar: {
       borderWidth: 2,
@@ -33,7 +33,7 @@ export const options = {
   plugins: {
     title: {
       display: true,
-      text: 'Chart.js Horizontal Bar Chart',
+      text: "Price calculator",
     },
   },
 };
@@ -67,15 +67,15 @@ export const HorizontalCharts: React.FC<Props> = ({ storageCount, transferCount}
   useEffect(() => {
     setBackblazePrice(getPrice(7, 0.005, 0.01, storageCount, transferCount));
   }, [storageCount, transferCount])
-  const labels = ['backblaze', 'bunny', 'scaleway', ' vultr'];
+  const labels = ["backblaze", "bunny", "scaleway", " vultr"];
   const data = {
     labels,
     datasets: [
       {
-        label: 'Price',
+        label: "Price",
         data: [backblazePrice, 400, 324, 2],
-        borderColor: ['red', 'orange', 'violet', 'blue'],
-        backgroundColor: ['red', 'orange', 'violet', 'blue'],
+        borderColor: ["red", "orange", "violet", "blue"],
+        backgroundColor: ["red", "orange", "violet", "blue"],
       },
     ],
   };

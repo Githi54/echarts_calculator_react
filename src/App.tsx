@@ -1,5 +1,6 @@
 import { Box, Container, Typography } from "@mui/material";
 import { useState } from 'react';
+import { DesktopVersion } from "./components/DesktopVersion";
 import { DiscreteSlider } from "./components/DiscreteSlider";
 import { HorizontalCharts } from "./components/HorizontalCharts";
 
@@ -9,30 +10,12 @@ function App() {
 
   return (
     <div className="App">
-      <Box sx={{ display: "flex", gap: "30px", flexDirection: "column", alignItems: "center" }}>
-        <Box sx={{ display: "flex", justifyContent: "space-between" }}>
-          <Container>
-            <Box sx={{ display: "flex", gap: "30px" }}>
-              <Typography>Storage:</Typography>
-              <Typography>{`${storageCount}GB`}</Typography>
-            </Box>
-            <DiscreteSlider setMemoryCount={setStorageCount} />
-          </Container>
-          <Container>
-            <Box sx={{ display: "flex", gap: "30px" }}>
-              <Typography>Transfer:</Typography>
-              <Typography>{`${transferCount}GB`}</Typography>
-            </Box>
-            <DiscreteSlider setMemoryCount={setTransferCount} />
-          </Container>
-        </Box>
-        <Container>
-          <HorizontalCharts
-            storageCount={storageCount}
-            transferCount={transferCount}
-          />
-        </Container>
-      </Box>
+      < DesktopVersion 
+        storageCount={storageCount} 
+        setStorageCount={setStorageCount} 
+        transferCount={transferCount}
+        setTransferCount={setTransferCount} 
+      />
     </div>
   );
 }

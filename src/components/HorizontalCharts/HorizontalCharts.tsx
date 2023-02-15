@@ -6,21 +6,19 @@ import {
   Title,
   Tooltip,
 } from "chart.js";
+import Radio from "@mui/material/Radio";
 import { useEffect, useState } from "react";
 import { Bar } from "react-chartjs-2";
+import { getPrice } from "../../helpers/getPrice";
+import { Container } from "@mui/system";
+import { Box, Typography } from "@mui/material";
 
-ChartJS.register(
-  CategoryScale,
-  LinearScale,
-  BarElement,
-  Title,
-  Tooltip,
-);
+ChartJS.register(CategoryScale, LinearScale, BarElement, Title, Tooltip);
 
 type Props = {
   storageCount: number;
   transferCount: number;
-}
+};
 
 export const options = {
   indexAxis: "y" as const,
@@ -32,57 +30,52 @@ export const options = {
   responsive: true,
   plugins: {
     title: {
-      display: true,
+      display: false,
       text: "Price calculator",
     },
   },
 };
 
-function getPrice(
-  minPrice: number, 
-  storagePrice: number, 
-  transferPrice: number, 
-  storageCount: number, 
-  transferCount: number,
-  maxPrice?: number,
-  freeGB = 0
-): number {
-  let price = 0;
+export const HorizontalCharts: React.FC<Props> = ({
+  storageCount,
+  transferCount,
+}) => {
+  const [bunnyPlan, setBunnyPlan] = useState("hhd");
 
-  if (storageCount <= freeGB) {
-    storagePrice = 0;
+  function getBunnyPrice(plan: string): number {
+    return plan === "hhd" ? 0.01 : 0.02;
   }
 
-  if (transferCount <= freeGB) {
-    transferPrice = 0;
+  const [scalewayPlan, setScalewayPlan] = useState("multi");
+
+  function getScalewayPrice(plan: string): number {
+    return plan === "multi" ? 0.06 : 0.03;
   }
 
-  price += ((storagePrice * (storageCount - freeGB)) + ((transferCount - freeGB) * transferPrice));
-
-  if (price < minPrice && transferCount !== 0 && storageCount !== 0) {
-    price = minPrice;
-  }
- 
-  if (maxPrice && price > maxPrice) {
-    price = maxPrice;
-  }
-
-  return price;
-}
-
-export const HorizontalCharts: React.FC<Props> = ({ storageCount, transferCount}) => {
-  const [backblazePrice, setBackblazePrice] = useState(getPrice(7, 0.005, 0.01, storageCount, transferCount));
-  const [bunnyPrice, setBunnyPrice] = useState(getPrice(0, 0.01, 0.01, storageCount, transferCount, 10));
-  const [scalewayPrice, setScalewayPrice] = useState(getPrice(0, 0.03, 0.02, storageCount, transferCount, undefined, 75));
-  const [vultrPrice, setVultrPrice] = useState(getPrice(5, 0.01, 0.01, storageCount, transferCount));
+  const [backblazePrice, setBackblazePrice] = useState(
+    getPrice(7, 0.005, 0.01, storageCount, transferCount)
+  );
+  const [bunnyPrice, setBunnyPrice] = useState(
+    getPrice(0, getBunnyPrice(bunnyPlan), 0.01, storageCount, transferCount, 10)
+  );
+  const [scalewayPrice, setScalewayPrice] = useState(
+    getPrice(0, getScalewayPrice(scalewayPlan), 0.02, storageCount, transferCount, undefined, 75)
+  );
+  const [vultrPrice, setVultrPrice] = useState(
+    getPrice(5, 0.01, 0.01, storageCount, transferCount)
+  );
 
   useEffect(() => {
     setBackblazePrice(getPrice(7, 0.005, 0.01, storageCount, transferCount));
-    setBunnyPrice(getPrice(0, 0.001, 0.01, storageCount, transferCount, 10));
-    setScalewayPrice(getPrice(0, 0.03, 0.02, storageCount, transferCount, undefined, 75));
+    setBunnyPrice(getPrice(0, getBunnyPrice(bunnyPlan), 0.01, storageCount, transferCount, 10));
+    setScalewayPrice(
+      getPrice(0, getScalewayPrice(scalewayPlan), 0.02, storageCount, transferCount, undefined, 75)
+    );
     setVultrPrice(getPrice(5, 0.01, 0.01, storageCount, transferCount));
-  }, [storageCount, transferCount])
+  }, [storageCount, transferCount, bunnyPlan, scalewayPlan]);
+
   const labels = ["backblaze", "bunny", "scaleway", " vultr"];
+
   const data = {
     labels,
     datasets: [
@@ -95,5 +88,53 @@ export const HorizontalCharts: React.FC<Props> = ({ storageCount, transferCount}
     ],
   };
 
-  return <Bar options={options} data={data} />;
-}
+  const handleChangeBunny = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setBunnyPlan(event.target.value);
+  };
+
+  const controlPropsBunny = (item: string) => ({
+    checked: bunnyPlan === item,
+    onChange: handleChangeBunny,
+    value: item,
+    name: "size-radio-button-demo",
+    inputProps: { "aria-label": item },
+  });
+
+  const handleChangeScaleway = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setScalewayPlan(event.target.value);
+  };
+
+  const controlPropsScaleway = (item: string) => ({
+    checked: scalewayPlan === item,
+    onChange: handleChangeScaleway,
+    value: item,
+    name: "size-radio-button-demo",
+    inputProps: { "aria-label": item },
+  });
+
+  return (
+    <Container>
+      <Bar options={options} data={data} />
+      <Box sx={{ display: "flex", maxWidth: "min-content", position: "relative", bottom: "330px", right: "50px" }} className="bunny_plan" >
+        <Box sx={{ display: "flex", alignItems: "center" }}>
+          <Typography sx={{ fontSize: "10px"}}>HHD</Typography>
+          <Radio {...controlPropsBunny("hhd")} size="small" />
+        </Box>
+        <Box sx={{ display: "flex", alignItems: "center" }}>
+          <Typography sx={{ fontSize: "10px"}}>SSD</Typography>
+          <Radio {...controlPropsBunny("ssd")} size="small" />
+        </Box>
+      </Box>
+      <Box sx={{ display: "flex", maxWidth: "min-content", position: "relative", bottom: "230px", right: "55px" }} className="scaleway_plan" >
+        <Box sx={{ display: "flex", alignItems: "center" }}>
+          <Typography sx={{ fontSize: "10px"}}>Multi</Typography>
+          <Radio {...controlPropsScaleway("multi")} size="small" />
+        </Box>
+        <Box sx={{ display: "flex", alignItems: "center" }}>
+          <Typography sx={{ fontSize: "10px"}}>Single</Typography>
+          <Radio {...controlPropsScaleway("single")} size="small" />
+        </Box>
+      </Box>
+    </Container>
+  );
+};

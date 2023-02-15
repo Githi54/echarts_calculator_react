@@ -125,7 +125,7 @@ export const HorizontalCharts: React.FC<Props> = ({
           <Radio {...controlPropsBunny("ssd")} size="small" />
         </Box>
       </Box>
-      <Box sx={{ display: "flex", maxWidth: "min-content", position: "relative", bottom: "230px", right: "70px" }} className="scaleway_plan" >
+      <Box sx={{ display: "flex", maxWidth: "min-content", position: "relative", bottom: "230px", right: "55px" }} className="scaleway_plan" >
         <Box sx={{ display: "flex", alignItems: "center" }}>
           <Typography sx={{ fontSize: "10px"}}>Multi</Typography>
           <Radio {...controlPropsScaleway("multi")} size="small" />

@@ -8,6 +8,7 @@ import {
 } from "chart.js";
 import { useEffect, useState } from "react";
 import { Bar } from "react-chartjs-2";
+import { getPrice } from "../../helpers/getPrice";
 
 ChartJS.register(
   CategoryScale,
@@ -38,38 +39,6 @@ export const options = {
   },
 };
 
-function getPrice(
-  minPrice: number, 
-  storagePrice: number, 
-  transferPrice: number, 
-  storageCount: number, 
-  transferCount: number,
-  maxPrice?: number,
-  freeGB = 0
-): number {
-  let price = 0;
-
-  if (storageCount <= freeGB) {
-    storagePrice = 0;
-  }
-
-  if (transferCount <= freeGB) {
-    transferPrice = 0;
-  }
-
-  price += ((storagePrice * (storageCount - freeGB)) + ((transferCount - freeGB) * transferPrice));
-
-  if (price < minPrice && transferCount !== 0 && storageCount !== 0) {
-    price = minPrice;
-  }
- 
-  if (maxPrice && price > maxPrice) {
-    price = maxPrice;
-  }
-
-  return price;
-}
-
 export const HorizontalCharts: React.FC<Props> = ({ storageCount, transferCount}) => {
   const [backblazePrice, setBackblazePrice] = useState(getPrice(7, 0.005, 0.01, storageCount, transferCount));
   const [bunnyPrice, setBunnyPrice] = useState(getPrice(0, 0.01, 0.01, storageCount, transferCount, 10));
@@ -97,3 +66,4 @@ export const HorizontalCharts: React.FC<Props> = ({ storageCount, transferCount}
 
   return <Bar options={options} data={data} />;
 }
+

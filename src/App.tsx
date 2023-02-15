@@ -10,7 +10,7 @@ function App() {
   return (
     <div className="App">
       <Box sx={{ display: "flex", gap: "30px", flexDirection: "column", alignItems: "center" }}>
-        <Box sx={{ display: "flex", justifyContent: "space-between" }}>
+        <Box sx={{ display: "flex", justifyContent: "space-between", gap: "200px" }}>
           <Container>
             <Box sx={{ display: "flex", gap: "30px" }}>
               <Typography>Storage:</Typography>

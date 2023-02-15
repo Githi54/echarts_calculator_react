@@ -29,5 +29,9 @@ $ npm install
 ```
 or
 ```
-$npm i
+$ npm i
+```
+4. Start project
+```
+$ npm run dev
 ```

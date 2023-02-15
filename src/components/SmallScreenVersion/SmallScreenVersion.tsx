@@ -1,6 +1,5 @@
 import { Box, Container, Typography } from "@mui/material";
 import { DiscreteSlider } from "../DiscreteSlider";
-import { HorizontalCharts } from "../HorizontalCharts";
 import { VerticalCharts } from "../VerticalCharts";
 
 type Props = {

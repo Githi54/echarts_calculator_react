@@ -1,6 +1,6 @@
 import { Box, Container, Typography } from "@mui/material";
 import { DiscreteSlider } from "../DiscreteSlider";
-import { HorizontalCharts } from "../HorizontalCharts";
+import { VerticalCharts } from "../VerticalCharts";
 
 type Props = {
   storageCount: number;
@@ -9,7 +9,7 @@ type Props = {
   setTransferCount: (val: number) => void;
 };
 
-export const DesktopVersion: React.FC<Props> = ({
+export const SmallScreenVersion: React.FC<Props> = ({
   storageCount,
   setStorageCount,
   transferCount,
@@ -24,11 +24,17 @@ export const DesktopVersion: React.FC<Props> = ({
         alignItems: "center",
       }}
     >
+      <Container>
+        <VerticalCharts
+          storageCount={storageCount}
+          transferCount={transferCount}
+        />
+      </Container>
       <Box
-        sx={{ display: "flex", justifyContent: "space-between", gap: "200px" }}
+        sx={{ display: "flex", flexDirection: "column", gap: "20px" }}
       >
         <Container>
-          <Box sx={{ display: "flex", gap: "30px" }}>
+          <Box sx={{ display: "flex", gap: "30px"}}>
             <Typography>Storage:</Typography>
             <Typography>{`${storageCount}GB`}</Typography>
           </Box>
@@ -42,12 +48,6 @@ export const DesktopVersion: React.FC<Props> = ({
           <DiscreteSlider setMemoryCount={setTransferCount} />
         </Container>
       </Box>
-      <Container>
-        <HorizontalCharts
-          storageCount={storageCount}
-          transferCount={transferCount}
-        />
-      </Container>
     </Box>
   );
 };

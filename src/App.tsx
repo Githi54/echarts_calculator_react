@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { DesktopVersion } from "./components/DesktopVersion";
+import { VersionValidate } from './components/VersionValidate';
 
 function App() {
   const [storageCount, setStorageCount] = useState(0);
@@ -7,7 +7,7 @@ function App() {
 
   return (
     <div className="App">
-      < DesktopVersion 
+      <VersionValidate
         storageCount={storageCount} 
         setStorageCount={setStorageCount} 
         transferCount={transferCount}

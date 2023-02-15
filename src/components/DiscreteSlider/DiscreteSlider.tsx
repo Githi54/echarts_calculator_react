@@ -21,7 +21,7 @@ export const DiscreteSlider: React.FC<Props> = ({ setMemoryCount }) => {
     <Box sx={{ width: 300 }}>
       <Slider
         aria-label="Memory"
-        defaultValue={100}
+        defaultValue={0}
         getAriaValueText={valuetext}
         valueLabelDisplay="auto"
         step={1}

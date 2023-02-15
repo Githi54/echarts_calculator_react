@@ -44,13 +44,22 @@ function getPrice(
   transferPrice: number, 
   storageCount: number, 
   transferCount: number,
-  maxPrice?: number
+  maxPrice?: number,
+  freeGB = 0
 ): number {
   let price = 0;
 
-  price += ((storagePrice * storageCount) + (transferCount * transferPrice));
+  if (storageCount <= freeGB) {
+    storagePrice = 0;
+  }
 
-  if (price < minPrice) {
+  if (transferCount <= freeGB) {
+    transferPrice = 0;
+  }
+
+  price += ((storagePrice * (storageCount - freeGB)) + ((transferCount - freeGB) * transferPrice));
+
+  if (price < minPrice && transferCount !== 0 && storageCount !== 0) {
     price = minPrice;
   }
  
@@ -63,9 +72,15 @@ function getPrice(
 
 export const HorizontalCharts: React.FC<Props> = ({ storageCount, transferCount}) => {
   const [backblazePrice, setBackblazePrice] = useState(getPrice(7, 0.005, 0.01, storageCount, transferCount));
+  const [bunnyPrice, setBunnyPrice] = useState(getPrice(0, 0.01, 0.01, storageCount, transferCount, 10));
+  const [scalewayPrice, setScalewayPrice] = useState(getPrice(0, 0.03, 0.02, storageCount, transferCount, undefined, 75));
+  const [vultrPrice, setVultrPrice] = useState(getPrice(5, 0.01, 0.01, storageCount, transferCount));
 
   useEffect(() => {
     setBackblazePrice(getPrice(7, 0.005, 0.01, storageCount, transferCount));
+    setBunnyPrice(getPrice(0, 0.001, 0.01, storageCount, transferCount, 10));
+    setScalewayPrice(getPrice(0, 0.03, 0.02, storageCount, transferCount, undefined, 75));
+    setVultrPrice(getPrice(5, 0.01, 0.01, storageCount, transferCount));
   }, [storageCount, transferCount])
   const labels = ["backblaze", "bunny", "scaleway", " vultr"];
   const data = {
@@ -73,7 +88,7 @@ export const HorizontalCharts: React.FC<Props> = ({ storageCount, transferCount}
     datasets: [
       {
         label: "Price",
-        data: [backblazePrice, 400, 324, 2],
+        data: [backblazePrice, bunnyPrice, scalewayPrice, vultrPrice],
         borderColor: ["red", "orange", "violet", "blue"],
         backgroundColor: ["red", "orange", "violet", "blue"],
       },
